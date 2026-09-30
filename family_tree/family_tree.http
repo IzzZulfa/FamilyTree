@@ -1,6 +1,6 @@
 @family_tree_HostAddress = http://localhost:5189
 
-GET {{family_tree_HostAddress}}/weatherforecast/
+GET {{family_tree_HostAddress}}/api/trees
 Accept: application/json
 
 ###
