@@ -4,6 +4,8 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Lets each developer keep their own connection string outside the repo: `dotnet user-secrets set ...` -->
+    <UserSecretsId>c0004235-bd6f-4782-ba9a-64181a4e3678</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

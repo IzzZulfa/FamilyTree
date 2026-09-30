@@ -1,3 +1,4 @@
+using System.Data.Common;
 using System.Text.Json;
 
 namespace family_tree.Seed;
@@ -24,7 +25,8 @@ public static class SeedCommand
             }
             return 0;
         }
-        catch (Exception ex) when (ex is SeedException or JsonException or IOException)
+        // DbException covers database problems such as a wrong password or Postgres not running.
+        catch (Exception ex) when (ex is SeedException or JsonException or IOException or DbException)
         {
             Console.Error.WriteLine($"Seeding failed, nothing was saved: {ex.Message}");
             return 1;
