@@ -12,7 +12,7 @@ using family_tree.Data;
 namespace family_tree.Migrations
 {
     [DbContext(typeof(FamilyTreeDbContext))]
-    [Migration("20260930101227_InitialCreate")]
+    [Migration("20260930103358_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace family_tree.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.12")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);

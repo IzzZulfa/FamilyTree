@@ -10,7 +10,7 @@ This is a **learning project**. The owner wants to understand the code, not just
 - Prefer clear, idiomatic code over clever code.
 
 ## Tech stack
-- Backend: ASP.NET Core Web API (.NET 10), EF Core with the Npgsql provider, PostgreSQL (local install for dev)
+- Backend: ASP.NET Core Web API (.NET 9 for now: the owner's work laptop only has the .NET 9 SDK; move to .NET 10 once it can be installed, since .NET 9 support ends 10 Nov 2026), EF Core with the Npgsql provider, PostgreSQL (local install for dev)
 - Frontend: Next.js (App Router), TypeScript, React Flow + ELK for tree layout
 - Tests: xUnit for the API
 
@@ -30,6 +30,7 @@ This is a **learning project**. The owner wants to understand the code, not just
 - Build API: `dotnet build`
 - Run API: `dotnet run --project family_tree`
 - Test API: `dotnet test`
+- EF tools (must match the EF Core major version): `dotnet tool install --global dotnet-ef --version 9.0.20`
 - Add migration: `dotnet ef migrations add <Name> --project family_tree`
 - Apply migrations: `dotnet ef database update --project family_tree`
 - Load seed data (replaces a tree with the same name): `dotnet run --project family_tree -- --seed ../seed/hartley-family.json` (the path is relative to `family_tree/`)

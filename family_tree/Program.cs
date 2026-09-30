@@ -57,3 +57,7 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
+
+// Top-level statements generate an internal Program class; making it public lets the test
+// project's WebApplicationFactory<Program> reference it. (.NET 10 does this automatically.)
+public partial class Program;
