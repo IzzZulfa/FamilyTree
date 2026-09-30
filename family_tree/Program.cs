@@ -34,6 +34,7 @@ builder.Services.AddDbContext<FamilyTreeDbContext>((services, options) =>
 
 builder.Services.AddScoped<TreeService>();
 builder.Services.AddScoped<PersonService>();
+builder.Services.AddScoped<ParentChildService>();
 
 var app = builder.Build();
 
