@@ -56,6 +56,10 @@ public class FamilyTreeDbContext(DbContextOptions<FamilyTreeDbContext> options) 
 
         modelBuilder.Entity<Partnership>(partnership =>
         {
+            // The naming convention would produce "person1id"; spell these out for readability.
+            partnership.Property(p => p.Person1Id).HasColumnName("person1_id");
+            partnership.Property(p => p.Person2Id).HasColumnName("person2_id");
+
             // No inverse collections on Person: a partnership can reference a person from
             // either side, so a single "Partnerships" navigation wouldn't map cleanly.
             partnership.HasOne(p => p.Person1)
