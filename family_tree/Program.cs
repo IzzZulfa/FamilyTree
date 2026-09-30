@@ -19,7 +19,10 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    // AddOpenApi/MapOpenApi generate the document at /openapi/v1.json;
+    // Swagger UI is just a browser front-end for it, served at /swagger.
     app.MapOpenApi();
+    app.UseSwaggerUI(options => options.SwaggerEndpoint("/openapi/v1.json", "Family Tree API v1"));
 }
 
 app.UseHttpsRedirection();
