@@ -20,6 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Tests load the real seed files, so a rule change that breaks them fails the build. -->
+    <None Include="..\seed\*.json" LinkBase="seed" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\family_tree\family_tree.csproj" />
   </ItemGroup>
 

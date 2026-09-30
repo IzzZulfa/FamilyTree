@@ -32,6 +32,7 @@ This is a **learning project**. The owner wants to understand the code, not just
 - Test API: `dotnet test`
 - Add migration: `dotnet ef migrations add <Name> --project family_tree`
 - Apply migrations: `dotnet ef database update --project family_tree`
+- Load seed data (replaces a tree with the same name): `dotnet run --project family_tree -- --seed ../seed/hartley-family.json` (the path is relative to `family_tree/`)
 - Run frontend: `cd web && npm run dev`
 
 ## Conventions
