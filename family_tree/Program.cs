@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using family_tree.Data;
 using family_tree.Infrastructure;
@@ -7,16 +8,10 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        var json = options.JsonSerializerOptions;
-        // Enums travel as names ("Biological"), and numbers like 99 are rejected.
-        json.Converters.Add(new JsonStringEnumConverter(allowIntegerValues: false));
-        // Constructor parameters without a default value must be present in the JSON,
-        // and non-nullable properties can't be null. Violations become 400 responses.
-        json.RespectRequiredConstructorParameters = true;
-        json.RespectNullableAnnotations = true;
-    });
+    .AddJsonOptions(options => ConfigureJson(options.JsonSerializerOptions));
+// The OpenAPI generator reads these (minimal-API) JSON options rather than the MVC ones above,
+// so apply the same settings here for the document to describe enums as strings.
+builder.Services.ConfigureHttpJsonOptions(options => ConfigureJson(options.SerializerOptions));
 builder.Services.AddOpenApi();
 
 // Turns ValidationException/NotFoundException from services into 400/404 ProblemDetails.
@@ -54,3 +49,13 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
+
+static void ConfigureJson(JsonSerializerOptions json)
+{
+    // Enums travel as names ("Biological"), and numbers like 99 are rejected.
+    json.Converters.Add(new JsonStringEnumConverter(allowIntegerValues: false));
+    // Constructor parameters without a default value must be present in the JSON,
+    // and non-nullable properties can't be null. Violations become 400 responses.
+    json.RespectRequiredConstructorParameters = true;
+    json.RespectNullableAnnotations = true;
+}

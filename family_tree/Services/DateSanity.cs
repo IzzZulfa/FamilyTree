@@ -17,8 +17,8 @@ public static class DateSanity
         if (person.BirthDate is not null && person.DeathDate is not null
             && person.DeathDate.Value < person.BirthDate.Value)
         {
-            yield return $"{DisplayName(person)}'s death date ({person.DeathDate.Value}) "
-                + $"is before their birth date ({person.BirthDate.Value}).";
+            yield return $"{DisplayName(person)}'s death date ({person.DeathDate.Value:O}) "
+                + $"is before their birth date ({person.BirthDate.Value:O}).";
         }
     }
 
@@ -27,8 +27,8 @@ public static class DateSanity
         if (parent.BirthDate is not null && child.BirthDate is not null
             && parent.BirthDate.Value >= child.BirthDate.Value)
         {
-            yield return $"Parent {DisplayName(parent)} ({parent.BirthDate.Value}) "
-                + $"was not born before child {DisplayName(child)} ({child.BirthDate.Value}).";
+            yield return $"Parent {DisplayName(parent)} ({parent.BirthDate.Value:O}) "
+                + $"was not born before child {DisplayName(child)} ({child.BirthDate.Value:O}).";
         }
     }
 
