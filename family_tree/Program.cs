@@ -1,10 +1,27 @@
+using System.Text.Json.Serialization;
 using family_tree.Data;
+using family_tree.Infrastructure;
+using family_tree.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        var json = options.JsonSerializerOptions;
+        // Enums travel as names ("Biological"), and numbers like 99 are rejected.
+        json.Converters.Add(new JsonStringEnumConverter(allowIntegerValues: false));
+        // Constructor parameters without a default value must be present in the JSON,
+        // and non-nullable properties can't be null. Violations become 400 responses.
+        json.RespectRequiredConstructorParameters = true;
+        json.RespectNullableAnnotations = true;
+    });
 builder.Services.AddOpenApi();
+
+// Turns ValidationException/NotFoundException from services into 400/404 ProblemDetails.
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<DomainExceptionHandler>();
 
 // The connection string is read when the DbContext is first resolved (not at startup),
 // so the test project can override "ConnectionStrings:FamilyTree" to point at a test database.
@@ -15,7 +32,12 @@ builder.Services.AddDbContext<FamilyTreeDbContext>((services, options) =>
     options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
 });
 
+builder.Services.AddScoped<TreeService>();
+builder.Services.AddScoped<PersonService>();
+
 var app = builder.Build();
+
+app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {

@@ -33,6 +33,16 @@ public class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
         using var scope = Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<FamilyTreeDbContext>();
+
+        // Safety net: these tests drop and truncate the database, so refuse to run
+        // if the override above didn't take effect and we're pointed at a real one.
+        var databaseName = db.Database.GetDbConnection().Database;
+        if (!databaseName.EndsWith("_test", StringComparison.Ordinal))
+        {
+            throw new InvalidOperationException(
+                $"Refusing to run tests against database '{databaseName}'; its name must end in '_test'.");
+        }
+
         await db.Database.EnsureDeletedAsync();
         await db.Database.MigrateAsync();
     }
